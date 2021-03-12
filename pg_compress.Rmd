@@ -1,0 +1,62 @@
+---
+title: "pg_compress"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Postgres is getting unruley
+
+First we need to connect to our databases
+
+```{r}
+
+```
+
+
+List some commands to have a look at what is going on
+
+
+```{r}
+##see the size of each schema in the database (https://www.postgresonline.com/journal/archives/110-Determining-size-of-database,-schema,-tables,-and-geometry.html)
+dbGetQuery(conn,
+           "SELECT schema_name,
+       pg_size_pretty(sum(table_size)::bigint),
+       (sum(table_size) / pg_database_size(current_database())) * 100
+FROM (
+  SELECT pg_catalog.pg_namespace.nspname as schema_name,
+         pg_relation_size(pg_catalog.pg_class.oid) as table_size
+  FROM   pg_catalog.pg_class
+     JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
+) t
+GROUP BY schema_name
+ORDER BY schema_name")
+```
+
+
+
+```{r}
+##size of tables
+dbGetQuery(conn,
+           "SELECT
+  schema_name,
+  relname,
+  pg_size_pretty(table_size) AS size,
+  table_size
+
+FROM (
+       SELECT
+         pg_catalog.pg_namespace.nspname           AS schema_name,
+         relname,
+         pg_relation_size(pg_catalog.pg_class.oid) AS table_size
+
+       FROM pg_catalog.pg_class
+         JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
+     ) t
+WHERE schema_name NOT LIKE 'pg_%'
+ORDER BY table_size DESC;") %>%
+  arrange(table_size)
+```
+

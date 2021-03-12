@@ -1,0 +1,23 @@
+---
+title: "file_management"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+files_to_move <- list.files(path = "C:/Users/al/OneDrive/New_Graph/Current/2019-010_FWCP_Parsnip", 
+                            all.files = T,
+                            recursive = T,
+                            include.dirs = T)
+files_destination <- paste0('hold/', files_to_move)
+
+mapply(file.rename, from = files_to_move, to = files_destination)
+```
+
+
+
