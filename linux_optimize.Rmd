@@ -1,0 +1,42 @@
+---
+title: "Linux Stuff"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+# see the size of folders subdirctories
+# du -sh -- *
+
+##trash goes here
+
+
+# in order to get rid of trash 
+# https://www.jakewiesler.com/blog/deleting-files-in-wsl#:~:text=The%20%24trash%2Ffiles%20directory%20contains,directory%20in%20%24trash%2Ffiles.
+```
+
+In windows, find big files on your drives by entering `size: Gigantic (>128MB)` into the search box of the C drive
+Soemthing is going on where wsl captures its local state in an image and become massive.  We need to optimize it apparently.   What a pain.  It is 240GB after having wsl2 for a week.... wtf
+
+
+```{r}
+
+# might need to run this is powershell as administrator but not sure it will work
+# wsl –shutdown
+
+
+
+# wsl.exe --shutdown
+# cd C:\Users\allan\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\
+# optimize-vhd -Path .\ext4.vhdx -Mode full
+
+
+##other resource here https://stephenreescarter.net/how-to-shrink-a-wsl2-virtual-disk/
+```
+
+
