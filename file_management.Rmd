@@ -7,16 +7,36 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Move Files Around
 
 ```{r}
-files_to_move <- list.files(path = "C:/Users/al/OneDrive/New_Graph/Current/2019-010_FWCP_Parsnip", 
-                            all.files = T,
-                            recursive = T,
-                            include.dirs = T)
-files_destination <- paste0('hold/', files_to_move)
+##first move the directories
+fromdir <- "C:/Users/al/OneDrive/New_Graph/Current/2019-010_FWCP_Parsnip/"
 
+fromdirstub <- list.dirs(path = fromdir, full.names = F, recursive = TRUE)
+dir_to_move <- paste0(fromdir, fromdirstub)
+dir_destination <- paste0('D:/New_Graph/', basename(fromdir), '/', fromdirstub)
+
+##pull the trigger to make the directories
+lapply(dir_destination, dir.create)
+
+
+##then move the files
+files_to_move_stub <- list.files(path = "C:/Users/al/OneDrive/New_Graph/Current/2019-010_FWCP_Parsnip", 
+                            all.files = T,
+                            # full.names = F,
+                            recursive = T,
+                            include.dirs = F)
+files_to_move <- paste0(fromdir, files_to_move_stub)
+files_destination <- paste0('D:/New_Graph/2019-010_FWCP_Parsnip/', files_to_move_stub)
+
+##pull the trigger to make the files
 mapply(file.rename, from = files_to_move, to = files_destination)
+
+
+##now we get rid of the directories
+file.remove(fromdir)
+
 ```
 
 
