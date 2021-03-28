@@ -2,5 +2,7 @@ pacman::p_load(
   tidyverse,
   RPostgres,
   RPostgreSQL,
-  DBI
+  DBI,
+  sf,
+  data.table
 )
